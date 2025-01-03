@@ -30,6 +30,28 @@ else
   echo "Docker has been installed!"
 fi
 
+# install python3.11 if not installed
+if python3.11 --version >/dev/null 2>&1; then
+  echo "Python3.11 has been installed. Skip Python3.11 Install process..."
+else
+  if command -v apt > /dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install software-properties-common -y
+    sudo add-apt-repository ppa:deadsnakes/ppa
+    sudo apt-get install python3.11 -y
+  elif command -v dnf > /dev/null 2>&1; then
+    sudo dnf install gcc openssl-devel bzip2-devel libffi-devel wget make -y
+    wget "https://www.python.org/ftp/python/3.11.11/Python-3.11.11.tar.xz"
+    tar -xvf Python-3.11.11.tar.xz
+    cd Python-3.11.11 && ./configure --enable-optimizations
+    sudo make -j $(sudo nproc)
+    sudo make altinstall
+    cd ..
+    sudo rm -rf Python-3.11.11
+    rm -rf Python-3.11.11.tar.xz
+  fi
+fi
+
 if [ ! -d ~/.local/quickrun ]; then
   mkdir -p ~/.local/quickrun
 fi
