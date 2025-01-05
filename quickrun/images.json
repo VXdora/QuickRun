@@ -1,0 +1,66 @@
+{
+  "images": [
+    {
+      "name": "Ubuntu",
+      "base": "ubuntu",
+      "tag": [
+        "20.04",
+        "22.04",
+        "24.04",
+        "24.10",
+        "25.04"
+      ],
+      "pkgman": "apt",
+      "entrypoint": "./entrypoint.sh",
+      "mount": "${PRJROOT}/src:/app"
+    },
+    {
+      "name": "CentOS",
+      "base": "centos",
+      "tag": [],
+      "pkgman": "apt"
+    },
+    {
+      "name": "Python (Django)",
+      "base": "python",
+      "tag": [
+        "3.14.0a3-bullseye",
+        "3.13.1-bullseye",
+        "3.13.1-slim",
+        "3.12.8-bookworm",
+        "3.12.8-slim",
+        "3.11.11-bookworm",
+        "3.11.11-slim",
+        "3.10.16-bookworm",
+        "3.10.16-slim"
+      ],
+      "pkgman": "apt",
+      "copy": "requirements.txt",
+      "install": "pip install -r requirements.txt",
+      "entrypoint": "python manage.py runserver 0.0.0.0:8000",
+      "port": [ "8000:8000" ],
+      "mount": "${PRJROOT}/src:/app"
+    },
+    {
+      "name": "Python (FastAPI)",
+      "base": "python",
+      "tag": [
+        "3.14.0a3-bullseye",
+        "3.13.1-bullseye",
+        "3.13.1-slim",
+        "3.12.8-bookworm",
+        "3.12.8-slim",
+        "3.11.11-bookworm",
+        "3.11.11-slim",
+        "3.10.16-bookworm",
+        "3.10.16-slim"
+      ],
+      "pkgman": "apt",
+      "copy": "requirements.txt",
+      "install": "pip install -r requirements.txt",
+      "entrypoint": "python -m uvicorn main:app --host=0.0.0.0 --port=8000 --reload",
+      "port": [ "8000:8000" ],
+      "mount": "${PRJROOT}/src:/app"
+    }
+  ]
+}
