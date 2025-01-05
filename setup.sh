@@ -16,11 +16,15 @@ else
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+    sudo usermod -aG docker $USER
+    sudo systemctl enable docker
 
   elif command -v dnf > /dev/null 2>&1; then
     echo "dnf"
     sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo -y
     sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+    sudo usermod -aG docker $USER
+    sudo systemctl enable docker
 
   else
     echo "This system has no install manager (apt or dnf)"
